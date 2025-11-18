@@ -1,15 +1,22 @@
 use gpui::*;
-use gpui_component::{button::*, *};
+use gpui_component::{
+    button::*,
+    input::{Input, InputState},
+    *,
+};
 
 use crate::views::toolbar::ToolBar;
 
 pub struct MainView {
-    tool_bar: Entity<ToolBar>,
+    toolbar: Entity<ToolBar>,
+    input: Entity<InputState>,
 }
 
 impl MainView {
-    pub fn new(tool_bar: Entity<ToolBar>) -> Self {
-        Self { tool_bar }
+    pub fn new(window: &mut Window, cx: &mut Context<Self>) -> Self {
+        let toolbar = cx.new(|cx| ToolBar::new(window, cx));
+        let input = cx.new(|cx| InputState::new(window, cx));
+        Self { toolbar, input }
     }
 }
 
@@ -19,7 +26,8 @@ impl Render for MainView {
             .v_flex()
             .gap_2()
             .size_full()
-            .child(self.tool_bar.clone())
+            .child(self.toolbar.clone())
+            .child(Input::new(&self.input))
             .child(
                 Button::new("dialog-btn")
                     .label("dialog-test")
