@@ -14,12 +14,24 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.1.17
         version: 4.1.17(vite@6.4.1(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.20.6))
+      '@tanstack/react-query':
+        specifier: ^5.90.10
+        version: 5.90.10(react@19.2.0)
       '@tanstack/react-router':
         specifier: ^1.136.11
         version: 1.136.11(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@tauri-apps/api':
         specifier: ^2
         version: 2.9.0
+      '@tauri-apps/plugin-dialog':
+        specifier: ~2.4.2
+        version: 2.4.2
+      '@tauri-apps/plugin-fs':
+        specifier: ~2.4.4
+        version: 2.4.4
+      '@tauri-apps/plugin-http':
+        specifier: ~2.5.4
+        version: 2.5.4
       '@tauri-apps/plugin-opener':
         specifier: ^2
         version: 2.5.2
@@ -628,6 +640,14 @@ packages:
     resolution: {integrity: sha512-B7+x7eP2FFvi3fgd3rNH9o/Eixt+pp0zCIdGhnQbAJjFrlwIKGjGnwyJjhWJ5fMQlGks/E2LdDTqEV4W9Plx7g==}
     engines: {node: '>=12'}
 
+  '@tanstack/query-core@5.90.10':
+    resolution: {integrity: sha512-EhZVFu9rl7GfRNuJLJ3Y7wtbTnENsvzp+YpcAV7kCYiXni1v8qZh++lpw4ch4rrwC0u/EZRnBHIehzCGzwXDSQ==}
+
+  '@tanstack/react-query@5.90.10':
+    resolution: {integrity: sha512-BKLss9Y8PQ9IUjPYQiv3/Zmlx92uxffUOX8ZZNoQlCIZBJPT5M+GOMQj7xislvVQ6l1BstBjcX0XB/aHfFYVNw==}
+    peerDependencies:
+      react: ^18 || ^19
+
   '@tanstack/react-router@1.136.11':
     resolution: {integrity: sha512-IULIonuWY8v6NUoIt1aDNbnLc5xLEZjwKvgwXM5WDP3SPhMXeF5nfquKLDPv306KTzeYqSQHTdbdSUh3nLfmKw==}
     engines: {node: '>=12'}
@@ -759,6 +779,15 @@ packages:
     resolution: {integrity: sha512-pvylWC9QckrOS9ATWXIXcgu7g2hKK5xTL5ZQyZU/U0n9l88SEFGcWgLQNa8WZmd+wWIOWhkxOFcOl3i6ubDNNw==}
     engines: {node: '>= 10'}
     hasBin: true
+
+  '@tauri-apps/plugin-dialog@2.4.2':
+    resolution: {integrity: sha512-lNIn5CZuw8WZOn8zHzmFmDSzg5zfohWoa3mdULP0YFh/VogVdMVWZPcWSHlydsiJhRQYaTNSYKN7RmZKE2lCYQ==}
+
+  '@tauri-apps/plugin-fs@2.4.4':
+    resolution: {integrity: sha512-MTorXxIRmOnOPT1jZ3w96vjSuScER38ryXY88vl5F0uiKdnvTKKTtaEjTEo8uPbl4e3gnUtfsDVwC7h77GQLvQ==}
+
+  '@tauri-apps/plugin-http@2.5.4':
+    resolution: {integrity: sha512-/i4U/9za3mrytTgfRn5RHneKubZE/dwRmshYwyMvNRlkWjvu1m4Ma72kcbVJMZFGXpkbl+qLyWMGrihtWB76Zg==}
 
   '@tauri-apps/plugin-opener@2.5.2':
     resolution: {integrity: sha512-ei/yRRoCklWHImwpCcDK3VhNXx+QXM9793aQ64YxpqVF0BDuuIlXhZgiAkc15wnPVav+IbkYhmDJIv5R326Mew==}
@@ -1696,6 +1725,13 @@ snapshots:
 
   '@tanstack/history@1.133.28': {}
 
+  '@tanstack/query-core@5.90.10': {}
+
+  '@tanstack/react-query@5.90.10(react@19.2.0)':
+    dependencies:
+      '@tanstack/query-core': 5.90.10
+      react: 19.2.0
+
   '@tanstack/react-router@1.136.11(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@tanstack/history': 1.133.28
@@ -1824,6 +1860,18 @@ snapshots:
       '@tauri-apps/cli-win32-arm64-msvc': 2.9.4
       '@tauri-apps/cli-win32-ia32-msvc': 2.9.4
       '@tauri-apps/cli-win32-x64-msvc': 2.9.4
+
+  '@tauri-apps/plugin-dialog@2.4.2':
+    dependencies:
+      '@tauri-apps/api': 2.9.0
+
+  '@tauri-apps/plugin-fs@2.4.4':
+    dependencies:
+      '@tauri-apps/api': 2.9.0
+
+  '@tauri-apps/plugin-http@2.5.4':
+    dependencies:
+      '@tauri-apps/api': 2.9.0
 
   '@tauri-apps/plugin-opener@2.5.2':
     dependencies:

@@ -7,7 +7,7 @@ import { tanstackRouter } from "@tanstack/router-plugin/vite";
 const host = process.env.TAURI_DEV_HOST;
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(async () => ({
   plugins: [
     tanstackRouter({ autoCodeSplitting: true }),
     react(),
@@ -41,4 +41,4 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-});
+}));
