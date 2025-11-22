@@ -1,0 +1,20 @@
+import useGetUserInfo from "@/hooks/mutations/useGetUserInfo";
+import { useUserInfoStore } from "@/store/user";
+import { listen } from "@/utils/event";
+import { useEffect } from "react";
+
+export default function useListenLogin() {
+  const setUserInfo = useUserInfoStore((state) => state.setUserInfo);
+  const getUserInfo = useGetUserInfo();
+
+  useEffect(() => {
+    const listenFn = listen("user::login", () => {
+      getUserInfo.mutateAsync().then((userInfo) => {
+        setUserInfo(userInfo);
+      });
+    });
+    return () => {
+      listenFn.then((unListen) => unListen());
+    };
+  }, []);
+}
