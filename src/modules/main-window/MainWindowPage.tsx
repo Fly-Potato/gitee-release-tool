@@ -11,9 +11,12 @@ export default function MainWindowPage() {
 
   const userInfo = useUserInfoStore((state) => state.userInfo);
   return (
-    <div className="flex w-full justify-between">
-      <div>{!userInfo && <LoginButton />}</div>
-      <div>{userInfo && <div>{userInfo.name}</div>}</div>
+    <div>
+      <div className="flex w-full justify-between">
+        <div>{!userInfo && <LoginButton />}</div>
+        <div>{userInfo && <div>{userInfo.name}</div>}</div>
+      </div>
+      <div></div>
     </div>
   );
 }
