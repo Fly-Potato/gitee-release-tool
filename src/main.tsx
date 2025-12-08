@@ -1,14 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "@/index.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
-
+import { StyleProvider } from "@ant-design/cssinjs";
+import "dayjs/locale/zh-cn";
+import zhCN from "antd/locale/zh_CN";
 import { routeTree } from "./routeTree.gen";
+import ReactQueryClientProvider from "./providers/ReactQueryClientProvider";
+import { App, ConfigProvider } from "antd";
 
 const router = createRouter({ routeTree });
-
-const queryClient = new QueryClient();
 
 declare module "@tanstack/react-router" {
   interface Register {
@@ -18,8 +19,14 @@ declare module "@tanstack/react-router" {
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <StyleProvider>
+      <ConfigProvider locale={zhCN}>
+        <App>
+          <ReactQueryClientProvider>
+            <RouterProvider router={router} />
+          </ReactQueryClientProvider>
+        </App>
+      </ConfigProvider>
+    </StyleProvider>
   </React.StrictMode>,
 );

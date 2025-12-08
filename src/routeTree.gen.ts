@@ -9,38 +9,83 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RepoViewRouteImport } from './routes/repo-view'
 import { Route as MainWindowRouteImport } from './routes/main-window'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as RepoViewRepoReleaseRouteImport } from './routes/repo-view/$repo-release'
 
+const RepoViewRoute = RepoViewRouteImport.update({
+  id: '/repo-view',
+  path: '/repo-view',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MainWindowRoute = MainWindowRouteImport.update({
   id: '/main-window',
   path: '/main-window',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RepoViewRepoReleaseRoute = RepoViewRepoReleaseRouteImport.update({
+  id: '/$repo-release',
+  path: '/$repo-release',
+  getParentRoute: () => RepoViewRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
+  '/login': typeof LoginRoute
   '/main-window': typeof MainWindowRoute
+  '/repo-view': typeof RepoViewRouteWithChildren
+  '/repo-view/$repo-release': typeof RepoViewRepoReleaseRoute
 }
 export interface FileRoutesByTo {
+  '/login': typeof LoginRoute
   '/main-window': typeof MainWindowRoute
+  '/repo-view': typeof RepoViewRouteWithChildren
+  '/repo-view/$repo-release': typeof RepoViewRepoReleaseRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/login': typeof LoginRoute
   '/main-window': typeof MainWindowRoute
+  '/repo-view': typeof RepoViewRouteWithChildren
+  '/repo-view/$repo-release': typeof RepoViewRepoReleaseRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/main-window'
+  fullPaths:
+    | '/login'
+    | '/main-window'
+    | '/repo-view'
+    | '/repo-view/$repo-release'
   fileRoutesByTo: FileRoutesByTo
-  to: '/main-window'
-  id: '__root__' | '/main-window'
+  to: '/login' | '/main-window' | '/repo-view' | '/repo-view/$repo-release'
+  id:
+    | '__root__'
+    | '/login'
+    | '/main-window'
+    | '/repo-view'
+    | '/repo-view/$repo-release'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  LoginRoute: typeof LoginRoute
   MainWindowRoute: typeof MainWindowRoute
+  RepoViewRoute: typeof RepoViewRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/repo-view': {
+      id: '/repo-view'
+      path: '/repo-view'
+      fullPath: '/repo-view'
+      preLoaderRoute: typeof RepoViewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/main-window': {
       id: '/main-window'
       path: '/main-window'
@@ -48,11 +93,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainWindowRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/repo-view/$repo-release': {
+      id: '/repo-view/$repo-release'
+      path: '/$repo-release'
+      fullPath: '/repo-view/$repo-release'
+      preLoaderRoute: typeof RepoViewRepoReleaseRouteImport
+      parentRoute: typeof RepoViewRoute
+    }
   }
 }
 
+interface RepoViewRouteChildren {
+  RepoViewRepoReleaseRoute: typeof RepoViewRepoReleaseRoute
+}
+
+const RepoViewRouteChildren: RepoViewRouteChildren = {
+  RepoViewRepoReleaseRoute: RepoViewRepoReleaseRoute,
+}
+
+const RepoViewRouteWithChildren = RepoViewRoute._addFileChildren(
+  RepoViewRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
+  LoginRoute: LoginRoute,
   MainWindowRoute: MainWindowRoute,
+  RepoViewRoute: RepoViewRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

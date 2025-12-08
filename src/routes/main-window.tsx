@@ -1,4 +1,4 @@
-import MainWindowPage from "@/modules/main-window/MainWindowPage";
+// import MainWindowPage from "@/modules/main-window/MainWindowPage";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/main-window")({
@@ -6,5 +6,6 @@ export const Route = createFileRoute("/main-window")({
 });
 
 function RouteComponent() {
-  return <MainWindowPage />;
+  // return <MainWindowPage />;
+  return <></>;
 }

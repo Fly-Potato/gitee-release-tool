@@ -12,8 +12,8 @@
   "app": {
     "windows": [
       {
-        "label": "main-window",
-        "url": "/main-window",
+        "label": "repo-view-window",
+        "url": "/repo-view",
         "title": "gitee-release-tool",
         "width": 800,
         "height": 600

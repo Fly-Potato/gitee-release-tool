@@ -1,21 +1,38 @@
 import { TokenInfo, UserInfo } from "@/types/user";
 import { create } from "zustand";
-type TokenInfoState = {
-  tokenInfo: TokenInfo | null;
-  setTokenInfo: (tokenInfo: TokenInfo | null) => void;
-};
-
-export const useTokenInfoStore = create<TokenInfoState>((set) => ({
-  tokenInfo: null,
-  setTokenInfo: (tokenInfo) => set({ tokenInfo }),
-}));
 
 type UserInfoState = {
+  /**
+   * 用户信息
+   */
   userInfo: UserInfo | null;
-  setUserInfo: (userInfo: UserInfo | null) => void;
+  /**
+   * token信息
+   */
+  tokenInfo: TokenInfo | null;
+  /**
+   * 是否已认证
+   */
+  authenticated: boolean;
 };
 
-export const useUserInfoStore = create<UserInfoState>((set) => ({
+export const useUserInfoStore = create<UserInfoState>((_set, get) => ({
   userInfo: null,
-  setUserInfo: (userInfo) => set({ userInfo }),
+  tokenInfo: null,
+  authenticated: !!get().tokenInfo,
 }));
+
+/**
+ * 设置用户信息
+ * @param userInfo
+ */
+export const setUserInfo = (userInfo: UserInfo) => {
+  useUserInfoStore.setState(() => ({ userInfo: userInfo }));
+};
+
+/**
+ * 设置token信息
+ */
+export const setTokenInfo = (tokenInfo: TokenInfo) => {
+  useUserInfoStore.setState(() => ({ tokenInfo: tokenInfo }));
+};
