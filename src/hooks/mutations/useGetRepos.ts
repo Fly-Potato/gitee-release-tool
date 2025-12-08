@@ -1,5 +1,6 @@
 import { GITEE_HOST } from "@/config";
 import { useTokenInfoStore } from "@/store/user";
+import { Repo } from "@/types/gitee";
 import { useMutation } from "@tanstack/react-query";
 
 export default function useGetRepos() {
@@ -13,7 +14,7 @@ export default function useGetRepos() {
         },
       });
       if (res.ok) {
-        const data = await res.json();
+        const data: Repo[] = await res.json();
         console.log(data);
         return data;
       } else {

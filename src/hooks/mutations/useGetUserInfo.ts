@@ -1,10 +1,10 @@
 import { GITEE_HOST } from "@/config";
-import { useTokenInfoStore } from "@/store/user";
+import { useUserInfoStore } from "@/store/user";
 import { useMutation } from "@tanstack/react-query";
 import { fetch } from "@tauri-apps/plugin-http";
 
 export default function useGetUserInfo() {
-  const tokenInfo = useTokenInfoStore((state) => state.tokenInfo);
+  const tokenInfo = useUserInfoStore((state) => state.tokenInfo);
 
   return useMutation({
     mutationFn: async () => {
@@ -18,6 +18,7 @@ export default function useGetUserInfo() {
         console.log(data);
         return data;
       } else {
+        console.error(await res.json());
         throw new Error("Failed to get user info");
       }
     },

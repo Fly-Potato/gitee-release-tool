@@ -1,3 +1,4 @@
+import RepoViewPage from "@/pages/repo-view/RepoViewPage";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/repo-view")({
@@ -5,5 +6,5 @@ export const Route = createFileRoute("/repo-view")({
 });
 
 function RouteComponent() {
-  return <div>Hello "/repo-view"!</div>;
+  return <RepoViewPage />;
 }

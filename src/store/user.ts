@@ -16,10 +16,10 @@ type UserInfoState = {
   authenticated: boolean;
 };
 
-export const useUserInfoStore = create<UserInfoState>((_set, get) => ({
+export const useUserInfoStore = create<UserInfoState>()(() => ({
   userInfo: null,
   tokenInfo: null,
-  authenticated: !!get().tokenInfo,
+  authenticated: false,
 }));
 
 /**
@@ -34,5 +34,6 @@ export const setUserInfo = (userInfo: UserInfo) => {
  * 设置token信息
  */
 export const setTokenInfo = (tokenInfo: TokenInfo) => {
+  useUserInfoStore.setState(() => ({ authenticated: true }));
   useUserInfoStore.setState(() => ({ tokenInfo: tokenInfo }));
 };
