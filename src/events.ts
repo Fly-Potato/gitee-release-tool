@@ -9,7 +9,7 @@ export const emitLoginEvent = async (event: LoginEvent, payload?: any) => {
 
 export const listenLoginEvent = (
   event: LoginEvent,
-  handler: EventCallback<unknown>,
+  handler: EventCallback<any>,
   options?: Options,
 ) => {
   return listen(event, handler, options);

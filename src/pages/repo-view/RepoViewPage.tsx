@@ -2,10 +2,17 @@ import { useUserInfoStore } from "@/store/user";
 import { useEffect, useRef } from "react";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import LoginWindow from "@/windows/LoginWindow";
+import useListenLoginSuccess from "./listeners/useListenLoginSuccess";
 
 export default function RepoViewPage() {
   const authenticated = useUserInfoStore((state) => state.authenticated);
+  const userInfo = useUserInfoStore((state) => state.userInfo);
   const isLoaded = useRef(false);
+  useListenLoginSuccess();
+
+  useEffect(() => {
+    console.log("authenticated", authenticated);
+  }, [authenticated]);
 
   useEffect(() => {
     if (isLoaded.current) {
@@ -19,11 +26,17 @@ export default function RepoViewPage() {
         .then(() => {
           LoginWindow.openWindow();
         });
+      // LoginWindow.openWindow();
     }
     return () => {
       LoginWindow.closeWindow();
     };
   }, []);
 
-  return <></>;
+  return (
+    <div>
+      <div>{userInfo?.name}</div>
+      <div></div>
+    </div>
+  );
 }

@@ -1,9 +1,8 @@
-import { emitLoginEvent, listenLoginEvent } from "@/events";
+import { emitLoginEvent } from "@/events";
 import useLogin from "@/hooks/mutations/useLogin";
-import { setTokenInfo, useUserInfoStore } from "@/store/user";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { Button, Form, Input } from "antd";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 type LoginForm = {
   username: string;
@@ -11,12 +10,14 @@ type LoginForm = {
 };
 
 export default function LoginPage() {
+  const loginSuccessed = useRef(false);
+
   const [form] = Form.useForm<LoginForm>();
   const login = useLogin();
   const onLogin = (values: LoginForm) => {
     login.mutateAsync(values).then(async (tokenInfo) => {
-      setTokenInfo(tokenInfo);
       await emitLoginEvent("login::success", tokenInfo);
+      loginSuccessed.current = true;
       getCurrentWebviewWindow().close();
     });
   };
@@ -25,7 +26,7 @@ export default function LoginPage() {
     const window = getCurrentWebviewWindow();
     const listenFn = window.onCloseRequested((event) => {
       console.log("close requested");
-      if (!useUserInfoStore.getState().authenticated) {
+      if (!loginSuccessed.current) {
         event.preventDefault();
       }
     });
@@ -57,7 +58,7 @@ export default function LoginPage() {
         </Form.Item>
       </Form>
       <div className="flex w-full justify-center">
-        <Button onClick={form.submit} type="primary">
+        <Button onClick={form.submit} type="primary" loading={login.isPending}>
           登录
         </Button>
       </div>

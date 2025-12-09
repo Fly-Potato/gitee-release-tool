@@ -1,4 +1,9 @@
-export const label = "repo-view-window";
-function openWindow() {}
+import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 
-export default { openWindow };
+const LABEL = "repo-view-window";
+
+export default {
+  getWindow: () => {
+    return WebviewWindow.getByLabel(LABEL);
+  },
+};

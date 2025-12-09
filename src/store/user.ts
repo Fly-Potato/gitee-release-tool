@@ -26,14 +26,14 @@ export const useUserInfoStore = create<UserInfoState>()(() => ({
  * 设置用户信息
  * @param userInfo
  */
-export const setUserInfo = (userInfo: UserInfo) => {
-  useUserInfoStore.setState(() => ({ userInfo: userInfo }));
-};
+export const setUserInfo = (userInfo: UserInfo) =>
+  useUserInfoStore.setState({ userInfo: userInfo });
 
 /**
  * 设置token信息
  */
-export const setTokenInfo = (tokenInfo: TokenInfo) => {
-  useUserInfoStore.setState(() => ({ authenticated: true }));
-  useUserInfoStore.setState(() => ({ tokenInfo: tokenInfo }));
-};
+export const setTokenInfo = (tokenInfo: TokenInfo) =>
+  useUserInfoStore.setState({
+    authenticated: true,
+    tokenInfo: tokenInfo,
+  });
