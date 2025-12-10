@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 
 export default function useGetUserInfo() {
   const api = useGiteeApi();
-  return useMutation({
-    mutationFn: async () => await api.get<UserInfo>("/api/v5/user"),
+  return useMutation<UserInfo>({
+    mutationFn: async () => await (await api.get("/api/v5/user")).json(),
   });
 }

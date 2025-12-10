@@ -10,14 +10,14 @@ const markUrl = (url: URL | Request | string) => {
 };
 
 export default function useGiteeApi() {
-  const giteeFetch = async <T = any, K = any>(
+  const giteeFetch = async (
     url: URL | string | Request,
     initOption: RequestInit & ClientOptions,
   ) => {
     const accessToken = useUserInfoStore.getState().tokenInfo?.access_token;
     console.log(accessToken);
     const defaultHeaders = {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json;charset=UTF-8",
       Authorization: `Bearer ${accessToken}`,
     };
 
@@ -25,30 +25,26 @@ export default function useGiteeApi() {
       ...initOption,
       headers: { ...defaultHeaders, ...initOption?.headers },
     });
-    const data = await response.json();
-    if (response.ok) {
-      return data as T;
-    }
-    return Promise.reject(data as K);
+    return response;
   };
 
   const api: {
-    get: <T = any>(
+    get: (
       url: URL | string | Request,
       initOption?: RequestInit & ClientOptions,
-    ) => Promise<T>;
-    post: <T = any>(
+    ) => Promise<Response>;
+    post: (
       url: URL | string | Request,
       initOption?: RequestInit & ClientOptions,
-    ) => Promise<T>;
-    put: <T = any>(
+    ) => Promise<Response>;
+    put: (
       url: URL | string | Request,
       initOption?: RequestInit & ClientOptions,
-    ) => Promise<T>;
-    delete: <T = any>(
+    ) => Promise<Response>;
+    delete: (
       url: URL | string | Request,
       initOption?: RequestInit & ClientOptions,
-    ) => Promise<T>;
+    ) => Promise<Response>;
   } = {
     get: (url, initOption) => {
       return giteeFetch(markUrl(url), { ...initOption, method: "GET" });

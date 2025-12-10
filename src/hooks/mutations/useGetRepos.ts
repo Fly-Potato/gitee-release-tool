@@ -1,25 +1,35 @@
-import { GITEE_HOST } from "@/config";
-import { useTokenInfoStore } from "@/store/user";
+import useGiteeApi from "@/api/useGiteeApi";
 import { Repo } from "@/types/gitee";
-import { useMutation } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 export default function useGetRepos() {
-  const tokenInfo = useTokenInfoStore((state) => state.tokenInfo);
+  const api = useGiteeApi();
 
-  return useMutation({
-    mutationFn: async () => {
-      const res = await fetch(`${GITEE_HOST}/api/v5/user/repos`, {
-        headers: {
-          Authorization: `${tokenInfo?.token_type} ${tokenInfo?.access_token}`,
-        },
+  return useInfiniteQuery({
+    queryKey: ["repos"],
+    queryFn: async (e) => {
+      // visibility=all&sort=full_name&page=2&per_page=5
+      const searchParams = new URLSearchParams({
+        visibility: "all",
+        sort: "full_name",
+        page: e.pageParam.page.toString(),
+        per_page: e.pageParam.per_page.toString(),
       });
-      if (res.ok) {
-        const data: Repo[] = await res.json();
-        console.log(data);
-        return data;
-      } else {
-        throw new Error("Failed to get user info");
-      }
+
+      const response = await api.get(`/api/v5/user/repos?${searchParams}`);
+      const data = (await response.json()) as Repo[];
+      return data;
     },
+    initialPageParam: {
+      page: 1,
+      per_page: 5,
+    },
+    getNextPageParam: (lastPage, _, lastPageParams) =>
+      lastPage.length < 5
+        ? null
+        : {
+            page: lastPageParams.page + 1,
+            per_page: 5,
+          },
   });
 }

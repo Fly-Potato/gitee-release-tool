@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import LoginWindow from "@/windows/LoginWindow";
 import useListenLoginSuccess from "./listeners/useListenLoginSuccess";
+import RepoList from "./repo-list/RepoList";
 
 export default function RepoViewPage() {
   const authenticated = useUserInfoStore((state) => state.authenticated);
@@ -36,7 +37,7 @@ export default function RepoViewPage() {
   return (
     <div>
       <div>{userInfo?.name}</div>
-      <div></div>
+      <div>{authenticated && <RepoList />}</div>
     </div>
   );
 }
